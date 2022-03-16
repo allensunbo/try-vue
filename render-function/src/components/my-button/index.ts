@@ -1,6 +1,6 @@
 import Vue, { CreateElement } from 'vue';
 import { Component } from 'vue-property-decorator';
-
+import './style.scss';
 @Component({
 
 })
@@ -12,30 +12,27 @@ export class MyButton extends Vue {
     type: 'footer',
   };
 
-  show = true;
+  showFooter = true;
   on = {} as any;
 
   created() {
     this.on.click = function (this: MyButton) {
       console.log('clicked');
-      // console.log(this);
-      // this.$emit.call(this, 'aaaa');
-      this.show = !this.show;
-      // console.log(this);
+      this.showFooter = !this.showFooter;
     }.bind(this);
   }
 
-  // mounted() {
-  //   console.log('***', this.$slots, this.$scopedSlots);
-  // }
 
   render(h: CreateElement) {
     /* eslint-disable-next-line @typescript-eslint/no-this-alias */
     // const self = this;
 
-    this.$on('input', (e: any) => {
+    // this is for v-model
+    this.$on('from-input', (e: string) => {
       this.footer.type = e;
     });
+
+
     return h('div', [
       h('div', [this.$slots.default]),
       h('div', {
@@ -63,7 +60,7 @@ export class MyButton extends Vue {
             input: (event: Event) => {
               const target = (<HTMLInputElement>event.target);
               // this.footer.type = target.value;
-              this.$emit('input', target.value);
+              this.$emit('from-input', target.value);
             },
           },
         }),
@@ -80,7 +77,8 @@ export class MyButton extends Vue {
           'display': 'flex',
           'justify-content': 'center',
         },
-        style: this.show ? 'display:flex' : 'display:none',
+        staticClass: 'footer',
+        style: this.showFooter ? 'display:flex' : 'display:none',
       }, this.$scopedSlots.footer!({
         footer: this.footer,
       })),
