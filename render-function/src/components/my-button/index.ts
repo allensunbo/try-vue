@@ -37,25 +37,53 @@ export class MyButton extends Vue {
       this.footer.type = e;
     });
     return h('div', [
-      this.$slots.default,
-
-      h('input', {
-        domProps: {
-          value: this.footer.type,
-        },
-        on: {
-          input: (event: Event) => {
-            const target = (<HTMLInputElement>event.target);
-            // this.footer.type = target.value;
-            this.$emit('input', target.value);
+      h('div', [this.$slots.default]),
+      h('div', {
+        staticStyle: {
+          'display': 'flex',
+          'justify-content': 'center',
+        }
+      }, [
+        h('label', {
+          attrs: {
+            for: 'test-input'
           },
+          staticStyle: {
+            'margin-right': '16px'
+          },
+        }, 'example of v-model'),
+        h('input', {
+          attrs: {
+            id: 'test-input',
+          },
+          domProps: {
+            value: this.footer.type,
+          },
+          on: {
+            input: (event: Event) => {
+              const target = (<HTMLInputElement>event.target);
+              // this.footer.type = target.value;
+              this.$emit('input', target.value);
+            },
+          },
+        }),
+        this.$scopedSlots.footer!({
+          footer: this.footer,
+        }),
+      ]),
+      this.$scopedSlots.default!({
+        user: this.user,
+        on: this.on,
+      }),
+      h('div', {
+        staticStyle: {
+          'display': 'flex',
+          'justify-content': 'center',
         },
-      }),
-      // h('div', this.user.name),
-      //  h('div', this.footer.type),
-      this.$scopedSlots.footer!({
+        style: this.show ? 'display:flex' : 'display:none',
+      }, this.$scopedSlots.footer!({
         footer: this.footer,
-      }),
+      })),
     ]);
   }
 }
