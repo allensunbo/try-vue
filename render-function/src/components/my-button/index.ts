@@ -30,7 +30,12 @@ export class MyButton extends Vue {
   // }
 
   render(h: CreateElement) {
+    /* eslint-disable-next-line @typescript-eslint/no-this-alias */
+    // const self = this;
 
+    this.$on('input', (e: any) => {
+      this.footer.type = e;
+    });
     return h('div', [
       this.$slots.default,
 
@@ -41,7 +46,7 @@ export class MyButton extends Vue {
         on: {
           input: (event: Event) => {
             const target = (<HTMLInputElement>event.target);
-            this.footer.type = target.value;
+            // this.footer.type = target.value;
             this.$emit('input', target.value);
           },
         },
