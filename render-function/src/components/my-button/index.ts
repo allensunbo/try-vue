@@ -20,19 +20,18 @@ export class MyButton extends Vue {
       console.log('clicked');
       this.showFooter = !this.showFooter;
     }.bind(this);
-  }
-
-
-  render(h: CreateElement) {
-    /* eslint-disable-next-line @typescript-eslint/no-this-alias */
-    // const self = this;
 
     // this is for v-model
     this.$on('from-input', (e: string) => {
       this.footer.type = e;
     });
 
+  }
 
+
+  render(h: CreateElement) {
+    /* eslint-disable-next-line @typescript-eslint/no-this-alias */
+    // const self = this;
     return h('div', [
       h('div', [this.$slots.default]),
       h('div', {
@@ -48,7 +47,7 @@ export class MyButton extends Vue {
           staticStyle: {
             'margin-right': '16px'
           },
-        }, 'example of v-model'),
+        }, 'example of v-model inside render function:'),
         h('input', {
           attrs: {
             id: 'test-input',
@@ -64,9 +63,9 @@ export class MyButton extends Vue {
             },
           },
         }),
-        this.$scopedSlots.footer!({
-          footer: this.footer,
-        }),
+        // this.$scopedSlots.footer!({
+        //   footer: this.footer,
+        // }),
       ]),
       this.$scopedSlots.default!({
         user: this.user,
